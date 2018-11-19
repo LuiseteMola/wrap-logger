@@ -1,1 +1,27 @@
-export { logger, createNamespace } from './winston';
+import { LoggerOptions, transports } from 'winston';
+import * as winston from 'winston';
+import { winstonFormats } from './formats';
+
+function getLogLevel(level?: string) {
+  if (level) return level;
+  if (process.env.LOG_LEVEL) return process.env.LOG_LEVEL;
+  if (process.env.NODE_ENV === 'production') return 'info';
+  return 'debug';
+}
+
+function loggerOptions(opts: LoggerOptions = {}, label?: string) {
+  if (!opts.level) opts.level = getLogLevel();
+  if (!opts.format) opts.format = winstonFormats.defaultFormat({ label: label });
+  if (!opts.transports) opts.transports = [new transports.Console()];
+  return opts;
+}
+
+export function createNamespace(name: string, opts?: LoggerOptions): winston.Logger {
+  const namespaceLogger = winston.loggers.add(name, loggerOptions(opts, name));
+  namespaceLogger.info(`Logger "${name}" enabled. LOG_LEVEL = ${getLogLevel(opts.level)}`);
+  return namespaceLogger;
+  //    return winston.loggers.add(name, loggerOptions(opts));
+}
+
+// Default logger creation
+export const logger = winston.createLogger(loggerOptions());
