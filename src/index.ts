@@ -24,4 +24,6 @@ export function createNamespace(name: string, opts?: LoggerOptions): winston.Log
 }
 
 // Default logger creation
-export const logger = winston.createLogger(loggerOptions());
+export const logger: winston.Logger = winston.createLogger(loggerOptions());
+
+export { Logger, LoggerOptions } from 'winston';
