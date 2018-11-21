@@ -68,7 +68,6 @@ const prefix = format((info?: any, opts?: any) => {
 function defaultFormat(opts: FormatOptions = {}): Format {
   const color: colors.Color = opts.color || colorPallete[currentColor++ % colorPallete.length];
   return format.combine(
-    //    format.label({ label: opts.label }),
     format.colorize(),
     format.splat(),
     format.timestamp({ format: 'DD/MM/YYYY HH:mm:ss.SSS' }),
