@@ -1,5 +1,7 @@
 import { LoggerOptions, transports } from 'winston';
 import * as winston from 'winston';
+
+import * as customFormats from './formats';
 import { FormatOptions, winstonFormats } from './winstonFormats';
 
 function getLogLevel(level?: string) {
@@ -16,6 +18,15 @@ function loggerOptions(opts: LoggerOptions = {}, formatOptions: FormatOptions = 
   return opts;
 }
 
+/**
+ * createNamespace
+ * Create new logger with provided label
+ * Transport can be overrided in loggerConfig parameter. If not, a Console transport will be created
+ * @param name Logger name
+ * @param loggerConfig Winston parameters for logging
+ * @param formatOptions Custom wrapper options
+ * @returns winston.Logger
+ */
 export function createNamespace(
   name: string,
   loggerConfig?: LoggerOptions,
@@ -27,7 +38,6 @@ export function createNamespace(
     `Logger "${name}" enabled. LOG_LEVEL = ${getLogLevel(loggerConfig ? loggerConfig.level : undefined)}`,
   );
   return namespaceLogger;
-  //    return winston.loggers.add(name, loggerOptions(opts));
 }
 
 // Default logger creation
@@ -35,3 +45,4 @@ export const logger: winston.Logger = winston.createLogger(loggerOptions());
 
 export { Logger, LoggerOptions } from 'winston';
 export { COLORS } from './colors';
+export const formats = customFormats;
