@@ -1,6 +1,6 @@
 import { LoggerOptions, transports } from 'winston';
 import * as winston from 'winston';
-import { FormatOptions, winstonFormats } from './formats';
+import { FormatOptions, winstonFormats } from './winstonFormats';
 
 function getLogLevel(level?: string) {
   if (level) return level;
@@ -34,4 +34,4 @@ export function createNamespace(
 export const logger: winston.Logger = winston.createLogger(loggerOptions());
 
 export { Logger, LoggerOptions } from 'winston';
-export { COLORS } from './formats';
+export { COLORS } from './colors';
