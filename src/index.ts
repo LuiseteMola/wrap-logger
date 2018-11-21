@@ -16,10 +16,16 @@ function loggerOptions(opts: LoggerOptions = {}, formatOptions: FormatOptions = 
   return opts;
 }
 
-export function createNamespace(name: string, loggerConfig?: LoggerOptions, formatOptions: FormatOptions = {}): winston.Logger {
+export function createNamespace(
+  name: string,
+  loggerConfig?: LoggerOptions,
+  formatOptions: FormatOptions = {},
+): winston.Logger {
   if (!formatOptions.label) formatOptions.label = name;
   const namespaceLogger = winston.loggers.add(name, loggerOptions(loggerConfig, formatOptions));
-  namespaceLogger.info(`Logger "${name}" enabled. LOG_LEVEL = ${getLogLevel(loggerConfig ? loggerConfig.level : undefined)}`);
+  namespaceLogger.info(
+    `Logger "${name}" enabled. LOG_LEVEL = ${getLogLevel(loggerConfig ? loggerConfig.level : undefined)}`,
+  );
   return namespaceLogger;
   //    return winston.loggers.add(name, loggerOptions(opts));
 }

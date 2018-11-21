@@ -19,7 +19,7 @@ export const COLORS = {
   MAGENTA: colors.magenta,
   RED: colors.red,
   WHITE: colors.white,
-  YELLOW: colors.yellow
+  YELLOW: colors.yellow,
 };
 
 const PREFIX_CHAR: string = '\u25CF';
@@ -51,7 +51,6 @@ const mergeArguments = format((info: TransformableInfo) => {
   return info;
 });
 
-
 const colorizeLabel = format((info?: any, opts?: any) => {
   if (opts.label) info.label = `${opts.color ? opts.color(opts.label) : opts.label} | `;
   else info.label = '';
@@ -61,24 +60,22 @@ const colorizeLabel = format((info?: any, opts?: any) => {
 
 const prefix = format((info?: any, opts?: any) => {
   const prefixChar = opts.prefix || PREFIX_CHAR;
-  info.prefix = opts.color ? opts.color(prefixChar): prefixChar;
+  info.prefix = opts.color ? opts.color(prefixChar) : prefixChar;
   return info;
-})
+});
 
 /** Winston formats */
 function defaultFormat(opts: FormatOptions = {}): Format {
   const color: colors.Color = opts.color || colorPallete[currentColor++ % colorPallete.length];
   return format.combine(
-//    format.label({ label: opts.label }),
+    //    format.label({ label: opts.label }),
     format.colorize(),
     format.splat(),
     format.timestamp({ format: 'DD/MM/YYYY HH:mm:ss.SSS' }),
     prefix({ color: color, prefix: opts.prefix }),
-    colorizeLabel({ label: opts.label, color: color}),
+    colorizeLabel({ label: opts.label, color: color }),
     mergeArguments(),
-    format.printf(
-      info => `${info.timestamp} ${info.prefix} ${info.label}${info.level}: ${info.message}`,
-    ),
+    format.printf(info => `${info.timestamp} ${info.prefix} ${info.label}${info.level}: ${info.message}`),
   );
 }
 export const winstonFormats = {
