@@ -51,14 +51,14 @@ const mergeArguments = format((info: TransformableInfo) => {
   return info;
 });
 
-const colorizeLabel = format((info?: any, opts?: any) => {
+const colorizeLabel = format((info?: TransformableInfo, opts?: any) => {
   if (opts.label) info.label = `${opts.color ? opts.color(opts.label) : opts.label} | `;
   else info.label = '';
 
   return info;
 });
 
-const prefix = format((info?: any, opts?: any) => {
+const prefix = format((info?: TransformableInfo, opts?: any) => {
   const prefixChar = opts.prefix || PREFIX_CHAR;
   info.prefix = opts.color ? opts.color(prefixChar) : prefixChar;
   return info;
