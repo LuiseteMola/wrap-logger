@@ -7,7 +7,6 @@ interface ColorizeLabelOptions {
     color?: Color;
 }
 /**
- * colorizeLabel
  * Adds color to label
  */
 export const colorizeLabel = format((info?: TransformableInfo, opts?: ColorizeLabelOptions): TransformableInfo => {

@@ -10,7 +10,6 @@ interface PrefixOptions {
 }
 
 /**
- * prefix
  * Adds prefix character to log line with default color. Useful when using more than one logger
  */
 export const prefix = format((info?: TransformableInfo, opts: PrefixOptions = {}): TransformableInfo => {

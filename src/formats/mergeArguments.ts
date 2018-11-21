@@ -21,7 +21,6 @@ function formatMeta(meta: any) {
 }
 
 /**
- * mergeArguments
  * Merge all arguments into message information. For using this function you should use format.splat() before
  */
 export const mergeArguments = format((info: TransformableInfo): TransformableInfo => {

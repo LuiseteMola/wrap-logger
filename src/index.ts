@@ -2,7 +2,7 @@ import { LoggerOptions, transports } from 'winston';
 import * as winston from 'winston';
 
 import * as customFormats from './formats';
-import { FormatOptions, winstonFormats } from './winstonFormats';
+import { DEFAULT_FORMAT, FormatOptions } from './winstonFormats';
 
 function getLogLevel(level?: string) {
   if (level) return level;
@@ -13,7 +13,7 @@ function getLogLevel(level?: string) {
 
 function loggerOptions(opts: LoggerOptions = {}, formatOptions: FormatOptions = {}) {
   if (!opts.level) opts.level = getLogLevel();
-  if (!opts.format) opts.format = winstonFormats.defaultFormat(formatOptions);
+  if (!opts.format) opts.format = DEFAULT_FORMAT(formatOptions);
   if (!opts.transports) opts.transports = [new transports.Console()];
   return opts;
 }
@@ -40,7 +40,9 @@ export function createNamespace(
   return namespaceLogger;
 }
 
-// Default logger creation
+/**
+ * Default winston logger
+ */
 export const logger: winston.Logger = winston.createLogger(loggerOptions());
 
 export { Logger, LoggerOptions } from 'winston';
