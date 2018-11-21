@@ -17,12 +17,17 @@
   },
   "author": "Luis Fernández",
   "license": "MIT",
-  "dependencies": {
-    "winston": "^3.1.0"
-  },
+  "keywords": [
+    "winston",
+    "wrapper",
+    "logger"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/LuiseteMola/wraps-logger"
+  },
+  "dependencies": {
+    "winston": "^3.1.0"
   },
   "devDependencies": {
     "@types/node": "^10.12.9",
