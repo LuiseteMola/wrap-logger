@@ -9,6 +9,9 @@
         "curly": [
             false
         ],
-        "object-literal-shorthand": false
+        "object-literal-shorthand": false,
+        "interface-name": [
+            false
+        ]
     }
 }

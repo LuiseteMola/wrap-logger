@@ -1,22 +1,30 @@
+import * as colors from 'colors';
 import * as util from 'util';
 
-import { TransformableInfo } from 'logform';
+import { Format, TransformableInfo } from 'logform';
 import { format } from 'winston';
 
-const colors = {
-  BLUE: '\u001b[34m',
-  CYAN: '\u001b[36m',
-  DEFAULT: '\u001b[39m',
-  GREEN: '\u001b[32m',
-  MAGENTA: '\u001b[35m',
-  RED: '\u001b[31m',
-  WHITE: '\u001b[37m',
-  YELLOW: '\u001b[33m',
+export interface FormatOptions {
+  label?: string;
+  color?: colors.Color;
+  prefix?: string;
+}
+
+export const COLORS = {
+  BLUE: colors.blue,
+  CYAN: colors.cyan,
+  GRAY: colors.gray,
+  GREEN: colors.green,
+  GREY: colors.grey,
+  MAGENTA: colors.magenta,
+  RED: colors.red,
+  WHITE: colors.white,
+  YELLOW: colors.yellow
 };
 
 const PREFIX_CHAR: string = '\u25CF';
 
-const colorPallete = [colors.YELLOW, colors.MAGENTA, colors.CYAN, colors.RED, colors.GREEN, colors.BLUE, colors.WHITE];
+const colorPallete = [COLORS.YELLOW, COLORS.MAGENTA, COLORS.CYAN, COLORS.RED, COLORS.GREEN, COLORS.BLUE, COLORS.WHITE];
 
 let currentColor = 0;
 
@@ -43,26 +51,33 @@ const mergeArguments = format((info: TransformableInfo) => {
   return info;
 });
 
-function formatLabel(label: string, color?: string) {
-  if (label) return `${label}| `;
-  return '';
-}
 
-function printPrefix(color: string) {
-  return `${color}${PREFIX_CHAR}${colors.DEFAULT}`;
-}
+const colorizeLabel = format((info?: any, opts?: any) => {
+  if (opts.label) info.label = `${opts.color ? opts.color(opts.label) : opts.label} | `;
+  else info.label = '';
+
+  return info;
+});
+
+const prefix = format((info?: any, opts?: any) => {
+  const prefixChar = opts.prefix || PREFIX_CHAR;
+  info.prefix = opts.color ? opts.color(prefixChar): prefixChar;
+  return info;
+})
 
 /** Winston formats */
-function defaultFormat(opts: any = {}) {
-  const color: string = colorPallete[currentColor++ % colorPallete.length];
+function defaultFormat(opts: FormatOptions = {}): Format {
+  const color: colors.Color = opts.color || colorPallete[currentColor++ % colorPallete.length];
   return format.combine(
-    format.label({ label: opts.label }),
+//    format.label({ label: opts.label }),
     format.colorize(),
     format.splat(),
     format.timestamp({ format: 'DD/MM/YYYY HH:mm:ss.SSS' }),
+    prefix({ color: color, prefix: opts.prefix }),
+    colorizeLabel({ label: opts.label, color: color}),
     mergeArguments(),
     format.printf(
-      info => `${info.timestamp} ${printPrefix(color)} ${formatLabel(info.label, color)}${info.level}: ${info.message}`,
+      info => `${info.timestamp} ${info.prefix} ${info.label}${info.level}: ${info.message}`,
     ),
   );
 }

@@ -1,6 +1,7 @@
+import { Color } from 'colors';
 import { LoggerOptions, transports } from 'winston';
 import * as winston from 'winston';
-import { winstonFormats } from './formats';
+import { winstonFormats, FormatOptions } from './formats';
 
 function getLogLevel(level?: string) {
   if (level) return level;
@@ -9,16 +10,17 @@ function getLogLevel(level?: string) {
   return 'debug';
 }
 
-function loggerOptions(opts: LoggerOptions = {}, label?: string) {
+function loggerOptions(opts: LoggerOptions = {}, formatOptions: FormatOptions = {}) {
   if (!opts.level) opts.level = getLogLevel();
-  if (!opts.format) opts.format = winstonFormats.defaultFormat({ label: label });
+  if (!opts.format) opts.format = winstonFormats.defaultFormat(formatOptions);
   if (!opts.transports) opts.transports = [new transports.Console()];
   return opts;
 }
 
-export function createNamespace(name: string, opts?: LoggerOptions): winston.Logger {
-  const namespaceLogger = winston.loggers.add(name, loggerOptions(opts, name));
-  namespaceLogger.info(`Logger "${name}" enabled. LOG_LEVEL = ${getLogLevel(opts.level)}`);
+export function createNamespace(name: string, loggerConfig?: LoggerOptions, formatOptions: FormatOptions = {}): winston.Logger {
+  if (!formatOptions.label) formatOptions.label = name;
+  const namespaceLogger = winston.loggers.add(name, loggerOptions(loggerConfig, formatOptions));
+  namespaceLogger.info(`Logger "${name}" enabled. LOG_LEVEL = ${getLogLevel(loggerConfig ? loggerConfig.level : undefined)}`);
   return namespaceLogger;
   //    return winston.loggers.add(name, loggerOptions(opts));
 }
