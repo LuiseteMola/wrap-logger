@@ -1,6 +1,6 @@
 import { LoggerOptions, transports } from 'winston';
 import * as winston from 'winston';
-import { COLORS, FormatOptions, winstonFormats } from './formats';
+import { FormatOptions, winstonFormats } from './formats';
 
 function getLogLevel(level?: string) {
   if (level) return level;
