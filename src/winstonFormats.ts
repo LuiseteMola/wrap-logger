@@ -11,7 +11,6 @@ export interface FormatOptions {
   prefix?: string;
 }
 
-
 /**
  * Shows pretty print to console:
  *
@@ -56,7 +55,7 @@ function consoleDebug(opts: FormatOptions = {}): Format {
  */
 export const winstonFormats = {
   consoleDebug: consoleDebug,
-  consolePretty: consolePretty
+  consolePretty: consolePretty,
 };
 
 /**
@@ -68,6 +67,6 @@ export let DEFAULT_FORMAT = consolePretty;
  * Set default logging format for NEW loggers
  * @param defaultFormat Winston format
  */
-export function setDefaultFormat (defaultFormat: any) {
+export function setDefaultFormat(defaultFormat: any) {
   DEFAULT_FORMAT = defaultFormat;
 }
