@@ -17,7 +17,7 @@ export interface FormatOptions {
  * timestamp | Prefix | Logger label | Logger Level | Message
  * @param opts Custom wrapper options
  */
-function consolePretty(opts: FormatOptions = {}): Format {
+export function consolePretty(opts: FormatOptions = {}): Format {
   opts.color = getColor(opts.color);
   return format.combine(
     format.colorize(),
@@ -36,7 +36,7 @@ function consolePretty(opts: FormatOptions = {}): Format {
  * USE THIS WITH CAUTION: TRACING EACH LOG WILL LEAD TO PERFORMANCE DEGRADATION
  * @param opts Format options
  */
-function consoleDebug(opts: FormatOptions = {}): Format {
+export function consoleDebug(opts: FormatOptions = {}): Format {
   opts.color = getColor(opts.color);
   return format.combine(
     format.colorize(),

@@ -2,7 +2,7 @@ import { LoggerOptions, transports } from 'winston';
 import * as winston from 'winston';
 
 import * as customFormats from './formats';
-import { DEFAULT_FORMAT, FormatOptions } from './winstonFormats';
+import { consolePretty, FormatOptions } from './winstonFormats';
 
 function getLogLevel(level?: string) {
   if (level) return level;
@@ -13,7 +13,7 @@ function getLogLevel(level?: string) {
 
 function loggerOptions(opts: LoggerOptions = {}, formatOptions: FormatOptions = {}) {
   if (!opts.level) opts.level = getLogLevel();
-  if (!opts.format) opts.format = DEFAULT_FORMAT(formatOptions);
+  if (!opts.format) opts.format = consolePretty(formatOptions);
   if (!opts.transports) opts.transports = [new transports.Console()];
   return opts;
 }
@@ -48,3 +48,5 @@ export const logger: winston.Logger = winston.createLogger(loggerOptions());
 export { Logger, LoggerOptions } from 'winston';
 export { COLORS } from './colors';
 export const formats = customFormats;
+
+logger.info('hola', 'que tal', {prueba: 'hola'});
