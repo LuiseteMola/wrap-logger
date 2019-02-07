@@ -48,5 +48,3 @@ export const logger: winston.Logger = winston.createLogger(loggerOptions());
 export { Logger, LoggerOptions } from 'winston';
 export { COLORS } from './colors';
 export const formats = customFormats;
-
-logger.info('hola', 'que tal', { prueba: 'hola' });
